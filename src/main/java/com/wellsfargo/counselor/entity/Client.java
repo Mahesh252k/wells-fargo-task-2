@@ -1,16 +1,12 @@
 package com.wellsfargo.counselor.entity;
 
-
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
-public class Advisor {
-
+public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long advisorId;
+    private  long clientId;
 
     @Column(nullable = false)
     private String firstName;
@@ -27,23 +23,22 @@ public class Advisor {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "advisor")
-    private List<Client> clients;
+    @ManyToOne
+    @JoinColumn(name = "advisorId")
+    private Advisor advisor;
 
-    protected Advisor() {
+    @OneToOne(mappedBy = "client")
+    private Portfolio portfolio;
+
+    protected Client(){
 
     }
-
-    public Advisor(String firstName, String lastName, String address, String phone, String email) {
+    public Client(String firstName, String lastName, String address, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
         this.phone = phone;
         this.email = email;
-    }
-
-    public Long getAdvisorId() {
-        return advisorId;
     }
 
     public String getFirstName() {
@@ -52,6 +47,10 @@ public class Advisor {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public long getClientId() {
+        return clientId;
     }
 
     public String getLastName() {
@@ -85,12 +84,19 @@ public class Advisor {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public List<Client> getClients(){
-        return clients;
+    public Advisor getAdvisor() {
+        return advisor;
     }
 
-    public void SetClients(List<Client> clients){
-        this.clients=clients;
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
+    }
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
     }
 }
